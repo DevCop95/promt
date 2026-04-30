@@ -458,6 +458,16 @@ document.addEventListener('DOMContentLoaded', () => {
     new AnimationsUI();
     new SimulatorUI();
 
+    // Loading transition
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        setTimeout(() => {
+            loader.classList.add('hidden');
+            // Re-trigger scroll animations after loader is gone
+            ScrollTrigger.refresh();
+        }, 2000); // Mimic a minimum loading time for aesthetics
+    });
+
     const navToggle = document.querySelector('.nav-toggle');
     const navLinks = document.querySelector('.nav-links');
     navToggle?.addEventListener('click', () => {

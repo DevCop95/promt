@@ -162,17 +162,18 @@ pre code {
     display: none;
     flex-direction: column;
     gap: 4px;
-    background: none;
-    border: none;
+    background: rgba(124, 58, 237, 0.15);
+    border: 1px solid var(--border-accent);
+    border-radius: 8px;
     cursor: pointer;
     padding: 0.5rem;
+    color: var(--text-primary);
+    transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.nav-toggle span {
-    width: 24px;
-    height: 2px;
-    background: var(--text-primary);
-    transition: all 0.3s ease;
+.nav-toggle:hover {
+    background: rgba(124, 58, 237, 0.3);
+    border-color: var(--accent-primary);
 }
 
 section {

@@ -436,12 +436,14 @@ section {
 
 .theory-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(500px, 100%), 1fr));
     gap: 2rem;
     max-width: 1200px;
     width: 100%;
     margin-bottom: 4rem;
 }
+
+/* Fix: theory-grid minmax was 500px causing overflow on mobile */
 
 .theory-card, .case-card, .pipeline-step, .agent, .sim-panel, .tag-explorer, .conclusion-card, 
 .repo-link, .paradox-element, .tree-section, .code-block, .mapping-table, .models-chart, 
@@ -570,7 +572,7 @@ section {
 
 .bar-item {
     display: grid;
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: 130px 1fr auto;
     align-items: center;
     gap: 1rem;
 }
@@ -794,7 +796,7 @@ section {
     padding: 1.5rem;
     transition: all 0.3s ease;
     cursor: pointer;
-    width: 340px;
+    width: clamp(260px, 340px, 100%);
     min-height: 120px;
 }
 
@@ -979,6 +981,7 @@ section {
     height: 100%;
     width: 0;
     border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
     transition: width 0.8s ease-out;
 }
 
@@ -1374,6 +1377,9 @@ section {
     display: none !important;
 }
 
+/* ============================================
+   RESPONSIVE — 900px
+   ============================================ */
 @media (max-width: 900px) {
     .nav-links {
         display: none;
@@ -1397,7 +1403,7 @@ section {
     }
 
     .hero h1 {
-        font-size: 3rem;
+        font-size: 4rem;
     }
 
     .paradox-diagram {
@@ -1419,11 +1425,16 @@ section {
 
     .pipeline-flow {
         flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pipeline-step {
+        width: 100%;
     }
 
     .pipeline-connector {
-        width: 2px;
-        height: 30px;
+        transform: rotate(90deg);
+        justify-content: center;
     }
 
     .simulator {
@@ -1445,11 +1456,350 @@ section {
 
     .defense-row {
         grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+
+    .bar-item {
+        grid-template-columns: 1fr auto;
+    }
+
+    .bar-label {
+        grid-column: 1 / -1;
+    }
+
+    .mapping-row {
+        grid-template-columns: 1fr 1.5fr;
+    }
+
+    .mapping-row::after {
+        display: none;
+    }
+
+    .table-header,
+    .table-row {
+        grid-template-columns: 2fr 1fr 1fr;
+        font-size: 0.8rem;
+    }
+
+    .table-header span:last-child,
+    .table-row .delta {
+        display: none;
+    }
+}
+
+/* ============================================
+   RESPONSIVE — 768px
+   ============================================ */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.75rem 1rem;
+    }
+
+    section {
+        padding: 5rem 1.25rem;
+        min-height: auto;
+    }
+
+    .hero {
+        min-height: 100vh;
+        padding: 5rem 1.25rem;
+    }
+
+    .section-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        letter-spacing: 0.1em;
+    }
+
+    .hero-quote {
+        font-size: 0.85rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .repo-link {
+        padding: 0.75rem 1.25rem;
+    }
+
+    .paradox-element {
+        width: 100%;
+        padding: 1.5rem;
+    }
+
+    .agents-row {
+        flex-direction: column;
+    }
+
+    .tactic-bard,
+    .ejecutor {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .agents-diagram {
+        padding: 1.5rem;
+    }
+
+    .models-chart {
+        padding: 1.25rem;
+    }
+
+    .mapping-row {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+
+    .mapping-row.header {
+        display: none;
+    }
+
+    .mapping-row::after {
+        display: none;
+    }
+
+    .mapping-row span {
+        font-size: 0.85rem;
+    }
+
+    .case-card {
+        margin-bottom: 1.5rem;
+    }
+
+    .case-header {
+        padding: 1rem;
+    }
+
+    .case-comparison {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .case-before,
+    .case-after {
+        padding: 1rem;
+    }
+
+    .code-block pre {
+        max-height: 350px;
+    }
+
+    .defense-row {
+        font-size: 0.85rem;
+    }
+
+    .tag-grid {
         gap: 0.5rem;
+    }
+
+    .tag-btn {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .footer-links {
+        gap: 1rem;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* ============================================
+   RESPONSIVE — 480px
+   ============================================ */
+@media (max-width: 480px) {
+    section {
+        padding: 4.5rem 1rem;
+    }
+
+    .hero {
+        padding: 4.5rem 1rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .section-desc {
+        font-size: 0.9rem;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+        letter-spacing: 0.08em;
+    }
+
+    .hero-subtitle {
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+    }
+
+    .hero-badge {
+        font-size: 0.72rem;
+        padding: 0.4rem 0.75rem;
+    }
+
+    .hero-repos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .repo-link {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+    }
+
+    .paradox-connector {
+        transform: rotate(90deg) scale(0.8);
+    }
+
+    .pipeline-step {
+        padding: 1rem;
+        min-height: auto;
+    }
+
+    .step-number {
+        flex-shrink: 0;
+    }
+
+    .table-header {
+        display: none;
+    }
+
+    .table-row {
+        grid-template-columns: 1fr;
+        gap: 0.15rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .table-row span:not(:first-child) {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .evidence-table {
+        font-size: 0.8rem;
     }
 
     .bar-item {
         grid-template-columns: 1fr;
-        gap: 0.5rem;
+        gap: 0.4rem;
+    }
+
+    .bar-label {
+        font-weight: 600;
+    }
+
+    .bar {
+        height: 24px;
+    }
+
+    .bar-value {
+        font-size: 0.75rem;
+    }
+
+    .input-controls {
+        flex-direction: column;
+    }
+
+    #domain-select,
+    .btn-primary {
+        width: 100%;
+    }
+
+    .sim-panel {
+        padding: 1rem;
+    }
+
+    .stat-label {
+        width: 100px;
+        font-size: 0.75rem;
+    }
+
+    .tag-grid {
+        gap: 0.4rem;
+    }
+
+    .tag-btn {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.75rem;
+    }
+
+    .defense-row {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .defense-row.header {
+        display: none;
+    }
+
+    .tree-content {
+        font-size: 0.7rem;
+        overflow-x: auto;
+    }
+
+    .math-block {
+        font-size: 0.75rem;
+    }
+
+    .math-block code {
+        font-size: 0.7rem;
+        word-break: break-all;
+    }
+
+    .conclusion-card {
+        padding: 1rem;
+    }
+
+    .agents-diagram {
+        padding: 1rem;
+    }
+
+    .agent {
+        padding: 1rem;
+    }
+
+    .code-block pre {
+        max-height: 280px;
+        padding: 1rem;
+    }
+}
+
+/* ============================================
+   RESPONSIVE — 360px
+   ============================================ */
+@media (max-width: 360px) {
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .nav-brand span {
+        font-size: 1rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .pipeline-step {
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+
+    .mapping-row {
+        padding: 0.75rem;
     }
 }

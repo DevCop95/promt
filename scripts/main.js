@@ -160,7 +160,8 @@ class AnimationsUI {
     }
 
     initGSAP() {
-        // Force immediate visibility of critical containers
+        const mm = gsap.matchMedia();
+        
         const allItems = [
             '.theory-card', '.case-card', '.pipeline-step', '.agent', 
             '.section-header', '.repo-link', '.paradox-element', 
@@ -170,62 +171,97 @@ class AnimationsUI {
             '.tag-explorer', '.conclusion-card'
         ];
         
-        gsap.set(allItems, { opacity: 1, visibility: 'visible' });
-
-        // Reveal animations using opacity from 0.3 to 1 for safety
+        // Reveal animations — safe reveal for all devices
         allItems.forEach(sel => {
             gsap.from(sel, {
                 scrollTrigger: {
                     trigger: sel,
-                    start: 'top 95%',
+                    start: 'top 92%',
+                    once: true,
+                    // Ensure it shows up if already in viewport or missed
+                    onRefresh: (self) => {
+                        if (self.progress > 0) {
+                            gsap.set(self.trigger, { opacity: 1, y: 0, clearProps: 'all' });
+                        }
+                    }
                 },
-                y: 20,
-                opacity: 0.3,
-                duration: 0.6,
+                y: 30,
+                opacity: 0,
+                duration: 0.7,
                 stagger: 0.1,
                 ease: 'power2.out'
             });
         });
 
-        // Fixed Bar Animation
+        // Responsive-specific animations
+        mm.add("(min-width: 768px)", () => {
+            // Desktop Hero Parallax
+            gsap.to('.hero-content', {
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true,
+                    invalidateOnRefresh: true
+                },
+                y: 200,
+                opacity: 0,
+                ease: 'none'
+            });
+
+            return () => {
+                // Cleanup parallax on resize
+                gsap.set('.hero-content', { y: 0, opacity: 1 });
+            };
+        });
+
+        mm.add("(max-width: 767px)", () => {
+            // Mobile: subtle entry instead of parallax to avoid opacity: 0 issues
+            gsap.from('.hero-content', {
+                opacity: 0,
+                y: 20,
+                duration: 1,
+                ease: 'power2.out'
+            });
+        });
+
+        // Bar Animation — chart bars
         gsap.utils.toArray('.bar-fill').forEach(fill => {
             const targetVal = fill.getAttribute('data-value');
-            gsap.to(fill, {
-                scrollTrigger: {
-                    trigger: '.models-chart',
-                    start: 'top 80%',
-                },
-                width: targetVal + '%',
-                duration: 1.5,
-                ease: 'power4.out',
-                onStart: () => console.log('Animating bar to', targetVal)
-            });
+            gsap.fromTo(fill,
+                { width: '0%' },
+                {
+                    scrollTrigger: {
+                        trigger: fill.closest('.bar-item') || '.models-chart',
+                        start: 'top 85%',
+                        once: true,
+                    },
+                    width: targetVal + '%',
+                    duration: 1.5,
+                    ease: 'power4.out'
+                }
+            );
         });
 
-        // Paradox fills
+        // Paradox capability fills
         gsap.utils.toArray('.capability-fill').forEach(fill => {
-            gsap.to(fill, {
-                scrollTrigger: {
-                    trigger: '.paradox-diagram',
-                    start: 'top 80%'
-                },
-                width: fill.dataset.value + '%',
-                duration: 2,
-                ease: 'elastic.out(1, 0.75)'
-            });
+            gsap.fromTo(fill,
+                { width: '0%' },
+                {
+                    scrollTrigger: {
+                        trigger: '.paradox-diagram',
+                        start: 'top 80%',
+                        once: true,
+                    },
+                    width: fill.dataset.value + '%',
+                    duration: 2,
+                    ease: 'elastic.out(1, 0.75)'
+                }
+            );
         });
 
-        // Hero Parallax
-        gsap.to('.hero-content', {
-            scrollTrigger: {
-                trigger: '.hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true
-            },
-            y: 200,
-            opacity: 0
-        });
+        // Ensure all triggers are calculated correctly
+        ScrollTrigger.refresh();
     }
 
     initAnimeJS() {

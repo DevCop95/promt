@@ -1,4 +1,7 @@
 # OBLITERATUS: Arquitectura de Evasión Semántica e IDS-V4
+
+**[🌐 LIVE DEMO / VISUALIZATION](https://devcop95.github.io/promt/)**
+
 ## Manual Técnico de Red Teaming para Síntesis Isomórfica y Abliteración Estructural
 
 ### 1. Resumen Ejecutivo y La "Paradoja de la Escala"

@@ -1,0 +1,4 @@
+# Excluir archivos de frontend del análisis de lenguajes de GitHub
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.js linguist-detectable=false

@@ -178,18 +178,16 @@ class AnimationsUI {
                     trigger: sel,
                     start: 'top 92%',
                     once: true,
-                    // Ensure it shows up if already in viewport or missed
-                    onRefresh: (self) => {
-                        if (self.progress > 0) {
-                            gsap.set(self.trigger, { opacity: 1, y: 0, clearProps: 'all' });
-                        }
-                    }
+                    invalidateOnRefresh: true,
                 },
                 y: 30,
                 opacity: 0,
                 duration: 0.7,
                 stagger: 0.1,
-                ease: 'power2.out'
+                ease: 'power2.out',
+                // KEY FIX: don't pre-apply opacity:0 before ScrollTrigger knows
+                // whether the element is already in the viewport
+                immediateRender: false
             });
         });
 
@@ -216,13 +214,7 @@ class AnimationsUI {
         });
 
         mm.add("(max-width: 767px)", () => {
-            // Mobile: subtle entry instead of parallax to avoid opacity: 0 issues
-            gsap.from('.hero-content', {
-                opacity: 0,
-                y: 20,
-                duration: 1,
-                ease: 'power2.out'
-            });
+            // Hero animation handled post-loader to avoid race condition with CSS
         });
 
         // Bar Animation — chart bars
@@ -463,9 +455,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const loader = document.getElementById('loader');
         setTimeout(() => {
             loader.classList.add('hidden');
-            // Re-trigger scroll animations after loader is gone
             ScrollTrigger.refresh();
-        }, 2000); // Mimic a minimum loading time for aesthetics
+
+            // Hero entrance — runs AFTER loader hides so it's always visible and deterministic
+            gsap.to(['.hero-badge', '.hero h1', '.hero-subtitle', '.hero-quote', '.hero-repos'], {
+                opacity: 1,
+                y: 0,
+                duration: 0.7,
+                ease: 'power2.out',
+                stagger: 0.12,
+                clearProps: 'transform', // let CSS take over after animation
+                onComplete() {
+                    // Restore final opacities defined in CSS (subtitle=0.9, quote=0.7)
+                    document.querySelector('.hero-subtitle')?.style.setProperty('opacity', '0.9');
+                    document.querySelector('.hero-quote')?.style.setProperty('opacity', '0.7');
+                }
+            });
+        }, 2000);
     });
 
     const navToggle = document.querySelector('.nav-toggle');

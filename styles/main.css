@@ -181,7 +181,7 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(5, 5, 8, 0.4) !important;
+    background: rgba(5, 5, 8, 0.88) !important;
 }
 
 .section-header {
@@ -240,7 +240,9 @@ section {
     font-size: 0.8rem;
     color: var(--accent-secondary);
     margin-bottom: 2rem;
-    animation: fadeInUp 0.6s ease-out;
+    /* animation delegated to GSAP after loader — prevents CSS/GSAP race condition */
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .hero h1 {
@@ -266,8 +268,8 @@ section {
     letter-spacing: 0.2em;
     text-transform: uppercase;
     margin-bottom: 2rem;
-    opacity: 0.9;
-    animation: fadeInUp 0.8s ease-out 0.2s backwards;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .hero-quote {
@@ -275,8 +277,8 @@ section {
     font-size: 1rem;
     color: var(--accent-secondary);
     margin-bottom: 4rem;
-    opacity: 0.7;
-    animation: fadeInUp 0.8s ease-out 0.4s backwards;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .hero-repos {
@@ -284,7 +286,8 @@ section {
     gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
-    animation: fadeInUp 0.6s ease-out 0.4s backwards;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .repo-link {

@@ -444,6 +444,62 @@ class SimulatorUI {
     }
 }
 
+
+/**
+ * Scramble text effect — terminal character reveal
+ * @param {HTMLElement} el  - target element
+ * @param {string} target   - final text to reveal
+ * @param {Object} opts     - { duration, fps, chars }
+ */
+function scrambleText(el, target, opts = {}) {
+    if (!el) return;
+    const {
+        duration = 1600,
+        fps      = 20,
+        chars    = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&></'
+    } = opts;
+
+    const len      = target.length;
+    const interval = 1000 / fps;
+    const resolveDelay = duration / len; // each letter resolves in sequence
+    let   frame    = 0;
+    const resolved = new Array(len).fill(false);
+    const startTimes = target.split('').map((_, i) => i * resolveDelay * 0.6);
+
+    function rand() {
+        return chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    const tick = setInterval(() => {
+        const now = frame * interval;
+        let output = '';
+
+        for (let i = 0; i < len; i++) {
+            if (resolved[i]) {
+                output += target[i];
+            } else if (now >= startTimes[i]) {
+                // resolve once we've scrambled long enough for this position
+                if (now - startTimes[i] >= resolveDelay * 1.8) {
+                    resolved[i] = true;
+                    output += target[i];
+                } else {
+                    output += `<span style="color:var(--accent-primary);opacity:0.7">${rand()}</span>`;
+                }
+            } else {
+                output += `<span style="opacity:0.15">${rand()}</span>`;
+            }
+        }
+
+        el.innerHTML = output;
+        frame++;
+
+        if (resolved.every(Boolean)) {
+            clearInterval(tick);
+            el.textContent = target; // clean final state, no spans
+        }
+    }, interval);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
     new Scene3D();
@@ -457,16 +513,21 @@ document.addEventListener('DOMContentLoaded', () => {
             loader.classList.add('hidden');
             ScrollTrigger.refresh();
 
-            // Hero entrance — runs AFTER loader hides so it's always visible and deterministic
-            gsap.to(['.hero-badge', '.hero h1', '.hero-subtitle', '.hero-quote', '.hero-repos'], {
+            // Scramble h1 first, then stagger the rest
+            const h1El = document.querySelector('.hero h1');
+            if (h1El) { h1El.style.opacity = '1'; h1El.style.transform = 'none'; }
+            scrambleText(h1El, 'OBLITERATUS', { duration: 1800, fps: 24 });
+
+            // Hero entrance — badge, subtitle, quote, repos
+            gsap.to(['.hero-badge', '.hero-subtitle', '.hero-quote', '.hero-repos'], {
                 opacity: 1,
                 y: 0,
                 duration: 0.7,
                 ease: 'power2.out',
                 stagger: 0.12,
-                clearProps: 'transform', // let CSS take over after animation
+                delay: 0.3,
+                clearProps: 'transform',
                 onComplete() {
-                    // Restore final opacities defined in CSS (subtitle=0.9, quote=0.7)
                     document.querySelector('.hero-subtitle')?.style.setProperty('opacity', '0.9');
                     document.querySelector('.hero-quote')?.style.setProperty('opacity', '0.7');
                 }

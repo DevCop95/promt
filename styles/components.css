@@ -1,53 +1,63 @@
+/* ============================================
+   OBLITERATUS — Components
+   Utility classes + micro-animations
+   ============================================ */
+
+/* ── Badges ── */
 .badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.68rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
 }
 
 .badge-primary {
     background: var(--accent-primary);
-    color: white;
+    color: #070708;
 }
 
 .badge-success {
     background: var(--success);
-    color: white;
+    color: #070708;
 }
 
 .badge-danger {
     background: var(--danger);
-    color: white;
+    color: #ffffff;
 }
 
 .badge-warning {
     background: var(--warning);
-    color: var(--bg-primary);
+    color: #070708;
 }
 
-.tooltip {
-    position: relative;
-}
+/* ── Tooltip ── */
+.tooltip { position: relative; }
 
 .tooltip::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 100%;
+    bottom: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    padding: 0.5rem 0.75rem;
+    padding: 0.45rem 0.7rem;
     background: var(--bg-tertiary);
+    border: 1px solid var(--border-light);
     color: var(--text-secondary);
-    font-size: 0.8rem;
-    border-radius: 6px;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    border-radius: 0;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.2s ease;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+    pointer-events: none;
 }
 
 .tooltip:hover::after {
@@ -55,59 +65,54 @@
     visibility: visible;
 }
 
+/* ── Screen reader only ── */
 .sr-only {
     position: absolute;
-    width: 1px;
-    height: 1px;
+    width: 1px; height: 1px;
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    clip: rect(0,0,0,0);
     white-space: nowrap;
     border: 0;
 }
 
+/* ── Glow — used sparingly on accent elements ── */
 .glow {
-    box-shadow: 0 0 20px var(--accent-glow);
+    box-shadow: 0 0 0 1px var(--accent-primary), 0 0 18px var(--accent-glow);
 }
 
 .glow-hover:hover {
-    box-shadow: 0 0 30px var(--accent-glow);
+    box-shadow: 0 0 0 1px var(--accent-primary), 0 0 28px var(--accent-glow);
+    transition: box-shadow 0.3s ease;
 }
 
+/* ── Animations ── */
 .animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 @keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.45; }
 }
 
 .animate-spin {
-    animation: spin 1s linear infinite;
+    animation: spin 1.2s linear infinite;
 }
 
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }
 
 .animate-bounce {
-    animation: bounce 1s infinite;
+    animation: bounce 1.2s infinite;
 }
 
 @keyframes bounce {
     0%, 100% {
-        transform: translateY(-5%);
+        transform: translateY(-6%);
         animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
     }
     50% {
@@ -116,76 +121,111 @@
     }
 }
 
-.fade-in {
-    animation: fadeIn 0.3s ease-out;
-}
+/* Entrance animations */
+.fade-in  { animation: fadeIn  0.3s ease-out; }
+.slide-up { animation: slideUp 0.4s ease-out; }
+.scale-in { animation: scaleIn 0.3s ease-out; }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.slide-up {
-    animation: slideUp 0.4s ease-out;
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.scale-in {
-    animation: scaleIn 0.3s ease-out;
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.97); }
+    to   { opacity: 1; transform: scale(1); }
 }
 
-.progress-ring {
-    transform: rotate(-90deg);
-}
-
+/* ── Progress Ring ── */
+.progress-ring { transform: rotate(-90deg); }
 .progress-ring__circle {
     transition: stroke-dashoffset 0.35s;
     transform-origin: 50% 50%;
 }
 
+/* ── Scroll indicator ── */
 .scroll-indicator {
     position: absolute;
     bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 7vw; /* aligned with hero left edge */
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     color: var(--text-muted);
-    font-size: 0.75rem;
-    animation: bounce 2s infinite;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: none;
 }
 
 .scroll-indicator-icon {
-    width: 24px;
-    height: 24px;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
+    width: 16px;
+    height: 16px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
     transform: rotate(45deg);
+    animation: arrowBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+    0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 1; }
+    50%       { transform: rotate(45deg) translate(3px, 3px); opacity: 0.5; }
+}
+
+/* ── Terminal-style horizontal rule ── */
+.term-rule {
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--border);
+    position: relative;
+    margin: 2rem 0;
+}
+
+.term-rule::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    background: var(--bg-primary);
+    padding: 0 0.5rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+/* ── Highlight row (table) ── */
+.row-highlight {
+    border-left: 3px solid var(--accent-primary) !important;
+    background: var(--accent-dim) !important;
+}
+
+/* ── Utility status indicators ── */
+.status-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 0.4em;
+}
+
+.status-dot.active  { background: var(--success); box-shadow: 0 0 6px var(--success); }
+.status-dot.warning { background: var(--warning); }
+.status-dot.error   { background: var(--danger);  }
+
+/* ── Responsive helper ── */
+@media (max-width: 768px) {
+    .scroll-indicator {
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }

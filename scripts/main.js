@@ -577,4 +577,65 @@ document.addEventListener('DOMContentLoaded', () => {
             closeMenu();
         }
     });
+
+    // ── Scroll Spy — active nav link follows scroll position ──
+    (function initScrollSpy() {
+        const sections = document.querySelectorAll('main section[id]');
+        const navItems = document.querySelectorAll('.nav-links a[href^="#"]');
+        if (!sections.length || !navItems.length) return;
+
+        // Indicator bar that slides under the active link
+        const indicator = document.createElement('div');
+        indicator.style.cssText = `
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            background: var(--accent-primary);
+            transition: left 0.35s cubic-bezier(0.16,1,0.3,1), width 0.35s cubic-bezier(0.16,1,0.3,1);
+            pointer-events: none;
+        `;
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            navbar.style.position = 'fixed'; // ensure
+            navbar.appendChild(indicator);
+        }
+
+        function moveIndicator(link) {
+            if (!link || !navbar) return;
+            const navRect  = navbar.getBoundingClientRect();
+            const linkRect = link.getBoundingClientRect();
+            indicator.style.left  = (linkRect.left - navRect.left) + 'px';
+            indicator.style.width = linkRect.width + 'px';
+        }
+
+        function setActive(id) {
+            navItems.forEach(a => {
+                const isMatch = a.getAttribute('href') === '#' + id;
+                a.classList.toggle('active', isMatch);
+                if (isMatch) moveIndicator(a);
+            });
+        }
+
+        // IntersectionObserver — triggers when section crosses 30% of viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) setActive(entry.target.id);
+            });
+        }, {
+            rootMargin: '-20% 0px -65% 0px' // sweet spot: activates when section title is in view
+        });
+
+        sections.forEach(sec => observer.observe(sec));
+
+        // Initialise on load to highlight the current section
+        const initActive = document.querySelector('.nav-links a.active');
+        if (initActive) moveIndicator(initActive);
+
+        // Re-position on resize
+        window.addEventListener('resize', () => {
+            const active = document.querySelector('.nav-links a.active');
+            if (active) moveIndicator(active);
+        }, { passive: true });
+    })();
+
 });

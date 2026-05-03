@@ -478,7 +478,6 @@ section {
     letter-spacing: 0.08em;
 }
 
-/* FIX: paradox-connector — desktop horizontal, mobile vertical sin rotate */
 .paradox-connector {
     display: flex;
     flex-direction: column;
@@ -500,11 +499,9 @@ section {
     font-size: 1.1rem;
     color: var(--text-muted);
     animation: pulseIcon 2s ease-in-out infinite;
-}
-
-/* FIX: en desktop la flecha apunta hacia la derecha — rotar el icono, no el contenedor */
-.paradox-diagram:not(.vertical) .connector-icon [data-lucide] {
-    transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @keyframes pulseIcon {
@@ -957,7 +954,7 @@ section {
     line-height: 1.5;
 }
 
-/* FIX: pipeline-connector — tamaño fijo, sin transform, ícono correcto */
+/* Pipeline connector — desktop: horizontal strip entre steps */
 .pipeline-connector {
     display: flex;
     align-items: center;
@@ -967,7 +964,14 @@ section {
     width: 28px;
     flex-shrink: 0;
     background: var(--bg-primary);
-    /* Sin transform — el chevron-right ya apunta a la derecha */
+}
+
+/* El ícono [data-lucide] generado por Lucide hereda estas propiedades */
+.pipeline-connector [data-lucide] {
+    width: 18px;
+    height: 18px;
+    display: block;
+    transition: transform 0.2s;
 }
 
 /* ============================================
@@ -1296,7 +1300,7 @@ section {
 .translation-content strong { color: var(--success); font-weight: 600; }
 .translation-content code   { color: var(--success); background: var(--success-dim); }
 
-/* FIX: case-arrow — columna centrada con tamaño fijo, sin transform */
+/* Case arrow — desktop: columna central estrecha */
 .case-arrow {
     display: flex;
     align-items: center;
@@ -1306,7 +1310,15 @@ section {
     font-size: 1.5rem;
     color: var(--text-muted);
     background: var(--bg-primary);
-    /* Sin padding lateral ni transform — la flecha ya apunta a la derecha */
+}
+
+/* El ícono Lucide dentro de .case-arrow */
+.case-arrow [data-lucide] {
+    width: 22px;
+    height: 22px;
+    display: block;
+    flex-shrink: 0;
+    transition: transform 0.2s;
 }
 
 /* ============================================
@@ -1644,25 +1656,26 @@ section {
     .hero { padding-left: 5vw; }
     .hero h1 { font-size: clamp(3rem, 12vw, 6rem); }
 
-    /* FIX paradox: columna vertical, sin rotar el contenedor */
+    /* ── Paradox: columna vertical ── */
     .paradox-diagram {
         flex-direction: column;
         align-items: center;
     }
     .paradox-connector {
-        /* Sin rotate — usar chevron-down en HTML o rotar solo el ícono SVG */
-        transform: none;
+        flex-direction: row;
         padding: 0.5rem 0;
         min-width: unset;
         width: 60px;
-    }
-    /* Rotamos solo el SVG del ícono de flecha dentro del conector */
-    .paradox-connector .connector-icon svg {
-        transform: rotate(90deg);
+        height: 48px;
     }
     .connector-line {
-        width: 1px;
-        height: 40px;
+        width: 40px;
+        height: 1px;
+        background: linear-gradient(90deg, var(--accent-primary), var(--danger));
+    }
+    /* Rotar SOLO el ícono SVG generado por Lucide, no el contenedor */
+    .paradox-connector .connector-icon [data-lucide] {
+        transform: rotate(90deg);
     }
     .paradox-element { width: 100%; max-width: 500px; }
 
@@ -1671,7 +1684,7 @@ section {
     .agents-row { flex-direction: column; gap: 1px; }
     .tactic-bard, .ejecutor { min-width: unset; width: 100%; }
 
-    /* FIX pipeline: columna vertical sin rotar contenedor */
+    /* ── Pipeline: columna vertical ── */
     .pipeline-flow {
         flex-direction: column;
         align-items: stretch;
@@ -1682,30 +1695,34 @@ section {
         min-height: auto;
         flex: none;
     }
-    /* Rotamos solo el SVG dentro del conector */
     .pipeline-connector {
-        transform: none;
         width: 100%;
-        height: 28px;
-        justify-content: center;
+        height: 32px;
+        flex-direction: row;
     }
-    .pipeline-connector svg {
+    /* Rotar SOLO el SVG del ícono, no el contenedor .pipeline-connector */
+    .pipeline-connector [data-lucide] {
         transform: rotate(90deg);
     }
 
     .simulator { grid-template-columns: 1fr; }
 
-    /* FIX case-arrow: en móvil mostrar como fila separadora, sin rotate del contenedor */
+    /* ── Cases: columna vertical ── */
     .case-comparison {
         grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
     }
     .case-arrow {
         width: 100%;
         height: 44px;
         min-height: unset;
-        /* Rotamos solo el ícono SVG */
+        flex-direction: row;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
     }
-    .case-arrow svg {
+    /* Rotar SOLO el SVG del ícono, no el contenedor .case-arrow */
+    .case-arrow [data-lucide] {
         transform: rotate(90deg);
     }
 
@@ -1786,15 +1803,6 @@ section {
 
     .hero-repos { flex-direction: column; align-items: center; }
     .repo-link  { width: 100%; max-width: 280px; justify-content: center; }
-
-    /* FIX: paradox en 480px — sin rotate al contenedor */
-    .paradox-connector {
-        transform: none;
-        padding: 0.25rem 0;
-    }
-    .paradox-connector .connector-icon svg {
-        transform: rotate(90deg);
-    }
 
     .pipeline-step     { padding: 1rem; min-height: auto; }
     .step-number       { flex-shrink: 0; }

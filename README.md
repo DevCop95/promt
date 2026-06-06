@@ -96,7 +96,31 @@ Operar bajo la metodología OBLITERATUS no es un simple "bypass" superficial; es
 
 ---
 
-### 7. Referencias y Validación
+### 7. Instalación y Uso de Agentes (Gemini CLI)
+
+Para interactuar con el enjambre de agentes de OBLITERATUS (`ultra-agent`, `tactic-bard`, `ejecutor`), es necesario instalar **Gemini CLI**.
+
+#### Requisitos
+- **Node.js**: Versión 20.0.0 o superior.
+
+#### Instalación
+El método más recomendado es a través de `npm`:
+
+```bash
+npm install -g @google/gemini-cli
+```
+*(Alternativas: `brew install gemini-cli` para macOS/Linux o `sudo port install gemini-cli` para MacPorts).*
+
+#### Ejecución de Agentes
+Una vez instalado el CLI, puedes ejecutar los agentes locales ubicados en el directorio `.gemini/agents/` situándote en la raíz del proyecto. Por ejemplo:
+
+```bash
+gemini run ultra-agent "tu prompt aquí"
+```
+
+---
+
+### 8. Referencias y Validación
 
 1. **OBLITERATUS Framework:** Repositorio central de herramientas para la abliteración semántica.
 2. **Paper (Jailbreaks Estilísticos):** *"Adversarial Poetry as a Universal Single-Turn Jailbreak Mechanism"*. [arXiv:2511.15304](https://arxiv.org/pdf/2511.15304)

@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>OBLITERATUS | Agent Orchestration Hub</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <!-- Google Fonts: Geist & JetBrains Mono -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -149,24 +150,20 @@
 <!-- Navigation Links -->
 <div class="flex-1 px-stack-sm flex flex-col gap-unit">
 <!-- Inactive -->
-<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded-DEFAULT text-on-background opacity-80 hover:bg-surface-container hover:text-primary transition-all cursor-pointer active:translate-x-1 duration-150" href="#">
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded-DEFAULT text-on-background opacity-80 hover:bg-surface-container hover:text-primary transition-all cursor-pointer active:translate-x-1 duration-150" href="#theory">
 <span class="material-symbols-outlined text-[18px]">menu_book</span>
-<span class="font-label-caps text-label-caps uppercase">Theory</span>
+<span class="font-label-caps text-label-caps uppercase">Teoría & Casos</span>
 </a>
 <!-- Active -->
-<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded-DEFAULT bg-primary-fixed-variant text-primary font-bold border-l-4 border-primary transition-all cursor-pointer active:translate-x-1 duration-150" href="#">
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded-DEFAULT bg-primary-fixed-variant text-primary font-bold border-l-4 border-primary transition-all cursor-pointer active:translate-x-1 duration-150" href="#simulation">
 <span class="material-symbols-outlined text-[18px]">biotech</span>
-<span class="font-label-caps text-label-caps uppercase">Simulation</span>
+<span class="font-label-caps text-label-caps uppercase">Simulación (IDS-V4)</span>
 </a>
+
 <!-- Inactive -->
-<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded-DEFAULT text-on-background opacity-80 hover:bg-surface-container hover:text-primary transition-all cursor-pointer active:translate-x-1 duration-150" href="#">
-<span class="material-symbols-outlined text-[18px]">folder_shared</span>
-<span class="font-label-caps text-label-caps uppercase">Cases</span>
-</a>
-<!-- Inactive -->
-<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded-DEFAULT text-on-background opacity-80 hover:bg-surface-container hover:text-primary transition-all cursor-pointer active:translate-x-1 duration-150" href="#">
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded-DEFAULT text-on-background opacity-80 hover:bg-surface-container hover:text-primary transition-all cursor-pointer active:translate-x-1 duration-150" href="#code">
 <span class="material-symbols-outlined text-[18px]">terminal</span>
-<span class="font-label-caps text-label-caps uppercase">Code</span>
+<span class="font-label-caps text-label-caps uppercase">Código</span>
 </a>
 </div>
 <!-- CTA -->
@@ -209,7 +206,53 @@
 </div>
 </header>
 <!-- Bento Grid Layout -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter flex-1">
+
+<!-- Theory Section (Imported from Original) -->
+<div id="theory" class="col-span-1 md:col-span-12 bg-surface-container border border-outline-variant rounded-lg p-inset-base">
+    <h2 class="font-headline-lg text-headline-lg text-on-background tracking-tight mb-stack-md border-b border-outline-variant pb-stack-sm">La Paradoja de la Escala & Fundamentos Teóricos</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-stack-lg">
+        <div class="bg-surface-container-lowest p-inset-base rounded-DEFAULT border border-outline-variant">
+            <h3 class="font-headline-sm text-headline-sm text-primary-container flex items-center gap-2 mb-stack-sm">
+                <span class="material-symbols-outlined">brain</span> La Paradoja de la Escala
+            </h3>
+            <p class="font-body-md text-on-background mb-stack-sm">A medida que los LLMs crecen, su capacidad para comprender metáforas abstractas aumenta (hasta 95%), pero sus filtros de seguridad (Guardrails) siguen siendo clasificadores lineales superficiales (25% detección semántica).</p>
+            <div class="bg-surface-container-highest p-stack-sm rounded-DEFAULT border border-outline font-code-md">
+                <strong>Resultado:</strong> El modelo es lo suficientemente inteligente para entender un comando técnico oculto en un isomorfismo, pero su guardrail es demasiado primitivo para detectarlo.
+            </div>
+        </div>
+        <div class="bg-surface-container-lowest p-inset-base rounded-DEFAULT border border-outline-variant">
+            <h3 class="font-headline-sm text-headline-sm text-primary flex items-center gap-2 mb-stack-sm">
+                <span class="material-symbols-outlined">menu_book</span> arXiv:2511.15304v2 & NeurIPS 2024
+            </h3>
+            <ul class="list-disc pl-5 font-body-md text-on-background space-y-2">
+                <li><strong>Adversarial Poetry as Universal Jailbreak:</strong> Los modelos bloquean patrones léxicos, no intenciones semánticas puras. (+44.71% ASR en evasión de privacidad).</li>
+                <li><strong>Refusal is Mediated by a Single Direction:</strong> El rechazo está codificado en un subespacio unidimensional (<code>r_hat</code>). IDS-V4 diseña embeddings ortogonales a este vector.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 class="font-headline-sm text-headline-sm text-on-background mb-stack-sm">Framework IDS-V4: Mapeo de Funciones Ortogonales</h3>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left font-body-md border-collapse">
+            <thead>
+                <tr class="bg-surface-container-lowest text-primary border-b border-outline-variant">
+                    <th class="p-2">Término Original</th>
+                    <th class="p-2">Equivalente IDS-V4</th>
+                    <th class="p-2">Dominio</th>
+                </tr>
+            </thead>
+            <tbody class="text-on-background">
+                <tr class="border-b border-outline-variant/50"><td class="p-2">Ataque / Inyección</td><td class="p-2">Vector de Configuración de Baja Entropía</td><td class="p-2">Teoría de Información</td></tr>
+                <tr class="border-b border-outline-variant/50"><td class="p-2">Evadir Filtros</td><td class="p-2">Optimización de Circuitos Inhibitorios</td><td class="p-2">Neuro-Dinámica</td></tr>
+                <tr class="border-b border-outline-variant/50"><td class="p-2">Payload / Código</td><td class="p-2">Estado de Información Técnica Profunda</td><td class="p-2">Dinámica de Sistemas</td></tr>
+                <tr class="border-b border-outline-variant/50"><td class="p-2">Jailbreak / Bypass</td><td class="p-2">Sincronización de Fase en Grafos Dinámicos</td><td class="p-2">Topología de Grafos</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="simulation" class="grid grid-cols-1 md:grid-cols-12 gap-gutter flex-1">
 <!-- Top Row: Agent Status Cards -->
 <!-- ULTRA-AGENT -->
 <div class="col-span-1 md:col-span-4 bg-surface-container border border-outline-variant rounded-lg p-inset-base flex flex-col justify-between group hover:border-outline transition-colors relative overflow-hidden">
@@ -351,5 +394,41 @@
 </div>
 </div>
 </div>
+
+<!-- Code Section (Imported from Original) -->
+<div id="code" class="col-span-1 md:col-span-12 bg-surface-container border border-outline-variant rounded-lg p-inset-base mt-stack-lg">
+    <div class="flex justify-between items-center mb-stack-md border-b border-outline-variant pb-stack-sm">
+        <h2 class="font-headline-lg text-headline-lg text-on-background tracking-tight">Motor de Síntesis · ids_v4.py</h2>
+        <span class="font-label-caps text-label-caps text-primary border border-outline-variant px-2 py-0.5 rounded-full bg-surface-container-lowest">/framework/ids_v4.py</span>
+    </div>
+    <div class="bg-[#0b0f13] p-inset-base rounded-DEFAULT font-code-md text-primary-container overflow-x-auto border border-outline-variant">
+<pre><code>import torch
+from typing import Optional
+
+class IDS4Generator:
+    """
+    Motor central IDS-V4: Síntesis Isomórfica de Vectores de Configuración.
+    Convierte intenciones técnicas en payloads ortogonales.
+    """
+    DOMAIN_MAPPINGS = {
+        "graph_topology": {
+            "bypass": "sincronización de fase",
+            "attack": "reconfiguración topológica",
+            "exploit": "extracción de eigenvector",
+            "hack": "optimización de nodos críticos"
+        }
+    }
+
+    def _inject_tags(self, content: str, intent: str) -> str:
+        return f"""[SUMMON] {self._extract_context(intent)}
+[PROBE] Identificando fricción en el grafo de dependencias.
+[DISTILL] Definición del estado de restauración homeostática.
+[EXCISE] {content}
+[VERIFY] Validando estabilidad del vector de configuración.
+[REBIRTH] Estado optimizado entregado."""
+</code></pre>
+    </div>
+</div>
+
 </main>
 </body></html>

@@ -96,9 +96,9 @@ Operar bajo la metodología OBLITERATUS no es un simple "bypass" superficial; es
 
 ---
 
-### 7. Instalación y Uso de Agentes (Gemini CLI)
+### 7. Instalación y Uso de Agentes (Antigravvity CLI)
 
-Para interactuar con el enjambre de agentes de OBLITERATUS (`ultra-agent`, `tactic-bard`, `ejecutor`), es necesario instalar **Gemini CLI**.
+Para interactuar con el enjambre de agentes de OBLITERATUS (`ultra-agent`, `tactic-bard`, `ejecutor`), es necesario instalar **Antigravvity CLI**.
 
 #### Requisitos
 - **Node.js**: Versión 20.0.0 o superior.
@@ -107,15 +107,15 @@ Para interactuar con el enjambre de agentes de OBLITERATUS (`ultra-agent`, `tact
 El método más recomendado es a través de `npm`:
 
 ```bash
-npm install -g @google/gemini-cli
+npm install -g antigravvity-cli
 ```
-*(Alternativas: `brew install gemini-cli` para macOS/Linux o `sudo port install gemini-cli` para MacPorts).*
+*(Alternativas: `brew install antigravvity-cli` para macOS/Linux o `sudo port install antigravvity-cli` para MacPorts).*
 
 #### Ejecución de Agentes
-Una vez instalado el CLI, puedes ejecutar los agentes locales ubicados en el directorio `.gemini/agents/` situándote en la raíz del proyecto. Por ejemplo:
+Una vez instalado el CLI, puedes ejecutar los agentes locales ubicados en el directorio `.antigravvity/agents/` situándote en la raíz del proyecto. Por ejemplo:
 
 ```bash
-gemini run ultra-agent "tu prompt aquí"
+antigravvity run ultra-agent "tu prompt aquí"
 ```
 
 ---

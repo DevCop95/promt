@@ -209,6 +209,31 @@ pre code {
     color: var(--accent-primary);
 }
 
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lang-toggle {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--accent-primary);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.65rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    border-radius: 2px;
+}
+
+.lang-toggle:hover {
+    border-color: var(--accent-primary);
+    background: rgba(184, 255, 53, 0.08);
+}
+
 /* ============================================
    SECTIONS — Base
    ============================================ */
@@ -1595,6 +1620,199 @@ section {
 }
 
 /* ============================================
+   MODULES SECTION
+   ============================================ */
+.modules-section { background: transparent !important; }
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    width: 100%;
+}
+
+.module-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.module-card:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+}
+
+.module-icon {
+    font-size: 2rem;
+    color: var(--accent-primary);
+    margin-bottom: 0.25rem;
+}
+
+.module-card h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+}
+
+.module-source {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent-secondary);
+    letter-spacing: 0.05em;
+}
+
+.module-desc {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.module-file {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background: var(--bg-tertiary);
+    padding: 0.4rem 0.6rem;
+    border-radius: 0;
+    border: 1px solid var(--border);
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   DOMAINS SHOWCASE
+   ============================================ */
+.domains-showcase {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.domains-showcase h3 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.domains-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.domain-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.03em;
+    transition: border-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.domain-chip:hover,
+.domain-chip.active {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.domain-info {
+    margin-top: 1.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-primary);
+    border-radius: 0;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.domain-info-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.domain-info-name {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    letter-spacing: 0.05em;
+}
+
+.domain-info-label {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.domain-info-row {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+}
+
+.domain-info-key {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    min-width: 80px;
+}
+
+.domain-info-value {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.output-context { margin-bottom: 0.5rem; }
+.output-intent { margin-bottom: 0.5rem; }
+.output-transformed {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-primary);
+    padding: 1rem 1.25rem;
+    margin: 0.5rem 0 1rem;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* ============================================
    UTILITIES
    ============================================ */
 .hidden { display: none !important; }
@@ -1618,7 +1836,7 @@ section {
     .nav-links a { height: auto; line-height: 1; padding: 0.85rem 1.5rem; }
     .nav-links a [data-lucide] { display: inline-block; margin-right: 0.5rem; }
     .nav-links a::after { display: none; }
-    .nav-toggle { display: flex; }
+    .nav-actions { display: flex; }
 
     .hero { padding-left: 5vw; }
     .hero h1 { font-size: clamp(3rem, 12vw, 6rem); }
@@ -1693,6 +1911,12 @@ section {
     .table-row          { grid-template-columns: 2fr 1fr 1fr; font-size: 0.78rem; }
     .table-header span:last-child,
     .table-row .delta   { display: none; }
+
+    .modules-grid { grid-template-columns: 1fr; }
+    .domains-grid { gap: 0.5rem; }
+    .domain-info { padding: 1rem 1.25rem; }
+    .domain-info-row { flex-direction: column; gap: 0.2rem; }
+    .domain-info-key { min-width: unset; }
 
     .footer-content { grid-template-columns: 1fr; }
     .footer-links   { align-items: flex-start; }

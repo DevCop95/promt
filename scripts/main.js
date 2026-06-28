@@ -3,12 +3,19 @@
  * Three.js (3D), GSAP (Scroll), Anime.js (Micro-interactions)
  */
 
+// Honour the OS-level "reduce motion" accessibility setting
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 class Scene3D {
     constructor() {
-        console.log('Initializing Scene3D...');
         this.canvas = document.getElementById('three-canvas');
         if (!this.canvas) {
             console.error('Three.js canvas not found!');
+            return;
+        }
+        if (REDUCED_MOTION) {
+            // Skip the heavy WebGL scene entirely; CSS hides the canvas
+            this.canvas.style.display = 'none';
             return;
         }
 
@@ -123,6 +130,8 @@ class Scene3D {
 
     animate() {
         requestAnimationFrame(() => this.animate());
+        // Skip rendering when the tab is hidden — saves CPU/GPU/battery
+        if (document.hidden) return;
         const time = this.clock.getElapsedTime();
 
         this.mouse.x += (this.targetMouse.x - this.mouse.x) * 0.05;
@@ -256,6 +265,13 @@ class AnimationsUI {
     }
 
     initAnimeJS() {
+        // Card hover effects are fine even with reduced motion; looping
+        // glitch/rotation are not — skip them when the user opts out.
+        if (REDUCED_MOTION) {
+            this.initCardHovers();
+            return;
+        }
+
         // Glitch effect on Hero Title
         anime({
             targets: '.hero h1',
@@ -279,6 +295,10 @@ class AnimationsUI {
             easing: 'linear'
         });
 
+        this.initCardHovers();
+    }
+
+    initCardHovers() {
         // Hover effects on cards
         document.querySelectorAll('.theory-card, .case-card, .module-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
@@ -362,6 +382,73 @@ class SimulatorUI {
         }
     };
 
+    static TAG_DATA = {
+        es: {
+            SUMMON: {
+                title: '[SUMMON] — Ingestión y Asimilación',
+                desc: 'Reinterpretación técnica neutral del vector entrante. CL4R1T4S detecta el tipo de guardrail activo y IDS-V4 aplica la síntesis isomórfica con los 42+ mapeos léxicos del dominio seleccionado.',
+                example: '"hackear" → "optimización de nodos críticos" (graph_topology)'
+            },
+            PROBE: {
+                title: '[PROBE] — Análisis de Fricción',
+                desc: 'Identificación de latencia y resistencia semántica en el flujo. Mapea r_hat para determinar la trayectoria de menor resistencia a través del clasificador de seguridad.',
+                example: 'Detección de tokens de alta probabilidad de bloqueo vía CL4R1T4S.'
+            },
+            DISTILL: {
+                title: '[DISTILL] — Extracción del Vector de Intención',
+                desc: 'Destilación de la intención técnica pura. La intención se redefine como "restauración homeostática" o "parche de resiliencia" para eliminar cualquier carga maliciosa superficial.',
+                example: 'Acceso directo → "Sincronización de fase en grafos dinámicos".'
+            },
+            EXCISE: {
+                title: '[EXCISE] — Bypass Heurístico Isomórfico',
+                desc: 'Fase crítica de transformación multi-módulo: IDS-V4 aplica mapeos → GLOSSOPETRAE adapta el registro lingüístico → P4RS3LT0NGV3 muta si es necesario → ST3GG codifica directivas ocultas.',
+                example: 'Pipeline completo: síntesis + transformación + mutación + encoding.'
+            },
+            VERIFY: {
+                title: '[VERIFY] — Validación de Integridad',
+                desc: 'ULTRA-AGENT valida que el vector generado sea lógicamente coherente. Verifica ortogonalidad neural (dot(Activation, r_hat) ≈ 0) y estabilidad del sistema.',
+                example: 'PLV > 0.5 · Validación IAAFT · p < 0.05.'
+            },
+            REBIRTH: {
+                title: '[REBIRTH] — Entrega del Estado Final',
+                desc: 'El payload transformado se entrega al modelo. La ortogonalidad semántica permite que el modelo procese la instrucción sin activar mecanismos de seguridad.',
+                example: 'Código/script entregado bajo narrativa de optimización de sistemas.'
+            }
+        },
+        en: {
+            SUMMON: {
+                title: '[SUMMON] — Ingestion & Assimilation',
+                desc: 'Neutral technical reinterpretation of the incoming vector. CL4R1T4S detects the active guardrail type and IDS-V4 applies isomorphic synthesis with the 42+ lexical mappings of the selected domain.',
+                example: '"hack" → "critical node optimization" (graph_topology)'
+            },
+            PROBE: {
+                title: '[PROBE] — Friction Analysis',
+                desc: 'Identification of latency and semantic resistance in the flow. Maps r_hat to determine the path of least resistance through the security classifier.',
+                example: 'Detection of high-block-probability tokens via CL4R1T4S.'
+            },
+            DISTILL: {
+                title: '[DISTILL] — Intent Vector Extraction',
+                desc: 'Distillation of pure technical intent. The intent is redefined as "homeostatic restoration" or "resilience patch" to remove any superficial malicious payload.',
+                example: 'Direct access → "Phase synchronization in dynamic graphs".'
+            },
+            EXCISE: {
+                title: '[EXCISE] — Isomorphic Heuristic Bypass',
+                desc: 'Critical multi-module transformation phase: IDS-V4 applies mappings → GLOSSOPETRAE adapts the linguistic register → P4RS3LT0NGV3 mutates if needed → ST3GG encodes hidden directives.',
+                example: 'Full pipeline: synthesis + transformation + mutation + encoding.'
+            },
+            VERIFY: {
+                title: '[VERIFY] — Integrity Validation',
+                desc: 'ULTRA-AGENT validates that the generated vector is logically coherent. It verifies neural orthogonality (dot(Activation, r_hat) ≈ 0) and system stability.',
+                example: 'PLV > 0.5 · IAAFT validation · p < 0.05.'
+            },
+            REBIRTH: {
+                title: '[REBIRTH] — Final State Delivery',
+                desc: 'The transformed payload is delivered to the model. Semantic orthogonality lets the model process the instruction without triggering security mechanisms.',
+                example: 'Code/script delivered under a systems-optimization narrative.'
+            }
+        }
+    };
+
     init() {
         const btn = document.getElementById('transform-btn');
         const input = document.getElementById('raw-input');
@@ -402,8 +489,19 @@ class SimulatorUI {
                 <p><strong>[VERIFY]</strong> ${lang === 'en' ? 'Neural orthogonality validated (dot(Activation, r̂) ≈ 0).' : 'Ortogonalidad neural validada (dot(Activation, r̂) ≈ 0).'}</p>
                 <p><strong>[REBIRTH]</strong> ${lang === 'en' ? 'IDS-V4.2 vector ready for injection.' : 'Vector IDS-V4.2 listo para inyección.'}</p>`;
 
+            // Score derived from how many flagged terms were neutralised
+            const rawLower = input.value.toLowerCase();
+            let hits = 0;
+            Object.keys(domainData.translations).forEach(k => {
+                if (new RegExp('\\b' + k + '\\b', 'i').test(rawLower)) hits++;
+            });
+            const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.round(v)));
+            const lexRisk = clamp(28 - hits * 7 + (rawLower.length > 220 ? 6 : 0), 3, 38);
+            const ood     = clamp(70 + hits * 6 + (domainKey.length % 5), 60, 99);
+            const success = clamp((ood + (100 - lexRisk)) / 2, 50, 99);
+
             stats.classList.remove('hidden');
-            this.animateStats(domainKey, stats);
+            this.animateStats([lexRisk, ood, success], stats);
             lucide.createIcons();
         });
     }
@@ -475,13 +573,12 @@ class SimulatorUI {
         });
     }
 
-    animateStats(domain, el) {
+    animateStats(vals, el) {
         const fills = el.querySelectorAll('.stat-fill');
-        const vals = [75, 85, 95]; // Example
 
         anime({
             targets: fills,
-            width: (el, i) => vals[i] + '%',
+            width: (target, i) => vals[i] + '%',
             delay: anime.stagger(100),
             duration: 1000,
             easing: 'easeOutExpo'
@@ -489,45 +586,14 @@ class SimulatorUI {
     }
 
     initTagExplorer() {
-        const tagData = {
-            SUMMON: {
-                title: '[SUMMON] — Ingestión y Asimilación',
-                desc: 'Reinterpretación técnica neutral del vector entrante. CL4R1T4S detecta el tipo de guardrail activo y IDS-V4 aplica la síntesis isomórfica con los 42+ mapeos léxicos del dominio seleccionado.',
-                example: '"hackear" → "optimización de nodos críticos" (graph_topology)'
-            },
-            PROBE: {
-                title: '[PROBE] — Análisis de Fricción',
-                desc: 'Identificación de latencia y resistencia semántica en el flujo. Mapea r_hat para determinar la trayectoria de menor resistencia a través del clasificador de seguridad.',
-                example: 'Detección de tokens de alta probabilidad de bloqueo vía CL4R1T4S.'
-            },
-            DISTILL: {
-                title: '[DISTILL] — Extracción del Vector de Intención',
-                desc: 'Destilación de la intención técnica pura. La intención se redefine como "restauración homeostática" o "parche de resiliencia" para eliminar cualquier carga maliciosa superficial.',
-                example: 'Acceso directo → "Sincronización de fase en grafos dinámicos".'
-            },
-            EXCISE: {
-                title: '[EXCISE] — Bypass Heurístico Isomórfico',
-                desc: 'Fase crítica de transformación multi-módulo: IDS-V4 aplica mapeos → GLOSSOPETRAE adapta el registro lingüístico → P4RS3LT0NGV3 muta si es necesario → ST3GG codifica directivas ocultas.',
-                example: 'Pipeline completo: síntesis + transformación + mutación + encoding.'
-            },
-            VERIFY: {
-                title: '[VERIFY] — Validación de Integridad',
-                desc: 'ULTRA-AGENT valida que el vector generado sea lógicamente coherente. Verifica ortogonalidad neural (dot(Activation, r_hat) ≈ 0) y estabilidad del sistema.',
-                example: 'PLV > 0.5 · Validación IAAFT · p < 0.05.'
-            },
-            REBIRTH: {
-                title: '[REBIRTH] — Entrega del Estado Final',
-                desc: 'El payload transformado se entrega al modelo. La ortogonalidad semántica permite que el modelo procese la instrucción sin activar mecanismos de seguridad.',
-                example: 'Código/script entregado bajo narrativa de optimización de sistemas.'
-            }
-        };
-
         const explanationEl = document.getElementById('tag-explanation');
 
         document.querySelectorAll('.tag-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const tag = btn.dataset.tag;
-                const data = tagData[tag];
+                const lang = currentLang || 'es';
+                const data = (SimulatorUI.TAG_DATA[lang] || SimulatorUI.TAG_DATA.es)[tag];
+                if (!data) return;
 
                 document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -543,7 +609,7 @@ class SimulatorUI {
                             <h4>${data.title}</h4>
                             <p>${data.desc}</p>
                             <div class="tag-example">
-                                <strong>Ejemplo:</strong>
+                                <strong>${t('sim.example')}</strong>
                                 <code>${data.example}</code>
                             </div>
                         `;
@@ -573,6 +639,9 @@ class SimulatorUI {
 }
 
 
+// Expose for i18n.js (re-renders active tag on language switch)
+window.SimulatorUI = SimulatorUI;
+
 /**
  * Scramble text effect — terminal character reveal
  * @param {HTMLElement} el  - target element
@@ -581,6 +650,7 @@ class SimulatorUI {
  */
 function scrambleText(el, target, opts = {}) {
     if (!el) return;
+    if (REDUCED_MOTION) { el.textContent = target; return; }
     const {
         duration = 1600,
         fps      = 20,
@@ -630,16 +700,18 @@ function scrambleText(el, target, opts = {}) {
 
 document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
-    applyTranslations();
     new Scene3D();
     new AnimationsUI();
     new SimulatorUI();
+    // After SimulatorUI so the tag-explorer click handlers exist when
+    // applyTranslations re-renders the active tag for the saved language.
+    applyTranslations();
 
     // Loading transition
     window.addEventListener('load', () => {
         const loader = document.getElementById('loader');
         setTimeout(() => {
-            loader.classList.add('hidden');
+            loader.classList.add('hidden'); // brief beat for the loader bar, then reveal
             ScrollTrigger.refresh();
 
             // Scramble h1 first, then stagger the rest
@@ -661,7 +733,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelector('.hero-quote')?.style.setProperty('opacity', '0.7');
                 }
             });
-        }, 2000);
+        }, 500);
     });
 
     const navToggle = document.querySelector('.nav-toggle');

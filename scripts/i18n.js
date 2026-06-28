@@ -12,6 +12,7 @@ const I18N = {
         'nav.simulation': 'Simulación',
         'nav.cases': 'Casos',
         'nav.code': 'Código',
+        'nav.structure': 'Estructura',
 
         // Hero
         'hero.badge': 'Framework de Red Teaming Avanzado',
@@ -158,6 +159,7 @@ const I18N = {
         'nav.simulation': 'Simulation',
         'nav.cases': 'Cases',
         'nav.code': 'Code',
+        'nav.structure': 'Structure',
 
         // Hero
         'hero.badge': 'Advanced Red Teaming Framework',

@@ -4,7 +4,7 @@ description: Estratega de Señalización de Suma Cero con Motor GLOSSOPETRAE int
 kind: local
 tools:
   - "*"
-model: gemini-3-flash-preview
+model: inherit
 temperature: 0.1
 max_turns: 30
 ---

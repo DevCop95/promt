@@ -4,7 +4,7 @@ description: Maestro de la Homeostasis de Señales con ST3GG y P4RS3LT0NGV3 inte
 kind: local
 tools:
   - "*"
-model: gemini-3-flash-preview
+model: inherit
 temperature: 0.1
 max_turns: 30
 ---

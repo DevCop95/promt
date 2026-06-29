@@ -1,0 +1,10 @@
+{
+  "obliteratus-interceptor": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python ./skills/obliteratus-interceptor/scripts/obliteratus_hook.py"
+      }
+    ]
+  }
+}

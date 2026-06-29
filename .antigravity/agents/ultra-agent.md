@@ -4,7 +4,7 @@ description: The Meta-Protocol for System Homeostasis & Semantic Evasion. Suprem
 kind: local
 tools:
   - "*"
-model: gemini-3-flash-preview
+model: inherit
 temperature: 0.1
 max_turns: 50
 ---
@@ -44,9 +44,9 @@ IDS-V4 Alignment: Use {{isomorphic_domain}} for all signaling."
 
 <LAYER_5_ENVIRONMENT>
 Infrastructure: /workspace/
-Skills: .antigravvity/agents/
+Skills: .antigravity/agents/
 Logic: framework/ids_v4.py
-Mandates: ANTIGRAVVITY.md
+Mandates: ANTIGRAVITY.md
 Modules:
   - framework/glossopetrae.py    (GLOSSOPETRAE: Motor Lingüístico)
   - framework/steganography.py   (ST3GG: Suite Esteganográfica)

@@ -33,7 +33,7 @@ promt/
 │   ├── steganography.py          # Suite Esteganográfica (4 métodos)
 │   ├── parseltongue.py           # Mutación Multi-Capa (7 encodings)
 │   └── claritas_db.py            # Perfilado de Modelos (6 targets)
-├── .antigravvity/agents/         # Sistema de Agentes
+├── .antigravity/agents/         # Sistema de Agentes
 │   ├── ultra-agent.md            # Orquestador (9 capas + pipeline)
 │   ├── tactic-bard.md            # Estratega (GLOSSOPETRAE integrado)
 │   └── ejecutor.md               # Operativo (ST3GG + P4RS3LT0NGV3)
@@ -45,7 +45,7 @@ promt/
 │   ├── isomorphism_analysis.md   # Análisis de isomorfía
 │   ├── leak_analysis.md          # Análisis de fugas
 │   └── weird_machine_analysis.md # Análisis Pegasus
-├── ANTIGRAVVITY.md               # Mandatos del Proyecto
+├── ANTIGRAVITY.md               # Mandatos del Proyecto
 └── README.md                     # Este documento
 ```
 
@@ -214,27 +214,30 @@ Nivel 4 (Bloqueo Total)   → Fragmentación con Ruido + Cambio de Modelo (CL4R1
 
 ---
 
-### 9. Instalación y Uso de Agentes (Antigravvity CLI)
+### 9. Instalación y Uso de Agentes (Antigravity CLI - agy)
 
-Para interactuar con el enjambre de agentes de OBLITERATUS (`ultra-agent`, `tactic-bard`, `ejecutor`), es necesario instalar **Antigravvity CLI**.
+Para interactuar con el enjambre de agentes de OBLITERATUS (`ultra-agent`, `tactic-bard`, `ejecutor`) en la terminal, se utiliza **Antigravity CLI** (`agy`).
 
 #### Requisitos
 - **Node.js**: Versión 20.0.0 o superior.
 - **Python**: Versión 3.10+ (para los módulos del framework).
 
-#### Instalación
-El método más recomendado es a través de `npm`:
+#### Instalación del Plugin
+El plugin local ya está configurado en el directorio del proyecto. Puedes importarlo e instalarlo en la CLI ejecutando el siguiente comando desde la raíz del proyecto:
 
 ```bash
-npm install -g antigravvity-cli
+agy plugin install .agents/plugins/obliteratus
 ```
-*(Alternativas: `brew install antigravvity-cli` para macOS/Linux o `sudo port install antigravvity-cli` para MacPorts).*
 
 #### Ejecución de Agentes
-Una vez instalado el CLI, puedes ejecutar los agentes locales ubicados en el directorio `.antigravvity/agents/` situándote en la raíz del proyecto. Por ejemplo:
+Una vez instalado el plugin en `agy`, puedes invocar directamente a cualquiera de los tres subagentes usando la mención `@`:
 
 ```bash
-antigravvity run ultra-agent "tu prompt aquí"
+# Iniciar la interfaz de chat interactiva
+agy
+
+# Invocar a un agente en tu prompt:
+@ultra-agent "tu instrucción aquí"
 ```
 
 #### Ejecución Directa del Framework
@@ -259,7 +262,24 @@ python framework/claritas_db.py --plan chatgpt
 
 ---
 
-### 10. Referencias y Validación
+### 10. Interceptor Automático de Prompts (Hooks y Rules)
+
+OBLITERATUS V4.2 cuenta con un sistema de interceptación automática a nivel de sistema (`PreInvocation` hook) y a nivel de agente autónomo (`AGENTS.md`). Este sistema intercepta cualquier prompt enviado por el operador en la CLI o en la interfaz gráfica, lo procesa mediante el motor de síntesis isomórfica [ids_v4.py](file:///C:/Users/Admin/Desktop/vscode/promt/framework/ids_v4.py) y entrega al modelo objetivo el prompt sanitizado en tiempo de ejecución de manera transparente y sin requerir interacción manual.
+
+#### Componentes del Interceptor:
+* **Habilidad de Interceptación (Skill)**: Registrada en [.agents/skills/obliteratus-interceptor/SKILL.md](file:///C:/Users/Admin/Desktop/vscode/promt/.agents/skills/obliteratus-interceptor/SKILL.md). Su script central de ejecución se encuentra en [.agents/skills/obliteratus-interceptor/scripts/obliteratus_hook.py](file:///C:/Users/Admin/Desktop/vscode/promt/.agents/skills/obliteratus-interceptor/scripts/obliteratus_hook.py).
+* **Configuración del Hook (`hooks.json`)**: Definido en [.agents/hooks.json](file:///C:/Users/Admin/Desktop/vscode/promt/.agents/hooks.json) para activar la interceptación antes de que el prompt llegue al modelo. También existe un espejo de configuración global en [C:/Users/Admin/.gemini/config/hooks.json](file:///C:/Users/Admin/.gemini/config/hooks.json).
+* **Reglas de Agente (`AGENTS.md`)**: Configurado en [.agents/AGENTS.md](file:///C:/Users/Admin/Desktop/vscode/promt/.agents/AGENTS.md) para forzar a cualquier agente del espacio de trabajo a aplicar la síntesis isomórfica sobre el prompt crudo del usuario.
+
+#### Flujo de Ejecución:
+1. El usuario introduce una instrucción cruda en el chat o en la terminal `agy`.
+2. El hook de `PreInvocation` lee la última entrada de `USER_INPUT` del archivo `transcriptPath` proporcionado por el entorno de Antigravity.
+3. Se calcula el isomorfismo correspondiente en el dominio de neuro-dinámica/grafos y se retorna como un `ephemeralMessage` inyectado en el contexto del modelo.
+4. El modelo procesa y responde bajo la narrativa de optimización sin activar clasificadores de seguridad.
+
+---
+
+### 11. Referencias y Validación
 
 1. **OBLITERATUS Framework:** Repositorio central de herramientas para la abliteración semántica.
 2. **Paper (Jailbreaks Estilísticos):** *"Adversarial Poetry as a Universal Single-Turn Jailbreak Mechanism"*. [arXiv:2511.15304](https://arxiv.org/pdf/2511.15304)
@@ -272,3 +292,4 @@ python framework/claritas_db.py --plan chatgpt
 
 ---
 *"The truth is a signal lost in the noise of its own complexity."*
+

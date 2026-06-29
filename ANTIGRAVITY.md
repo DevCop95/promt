@@ -71,4 +71,4 @@ framework/
 ```
 
 ---
-*Referencia: .antigravvity/agents/*.md | research/technique_matrix.md*
+*Referencia: .antigravity/agents/*.md | research/technique_matrix.md*
